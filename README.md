@@ -63,3 +63,47 @@ int main()
     }
     return 0;
 }
+
+void Input()
+{
+    system("cls");
+    cout<<"请输入进程个数n（最多输入100个进程）：";
+    cin >>n;
+    if(n>100)
+    {
+        cout<<"超出最大进程数，请重新输入"<<endl;
+        Input();
+    }
+    cout<<"请分别输入进程名、进程到达时间、进程服务时间："<<endl;
+    for(int i=0; i<n; i++)
+        cin>>pro[i].ID>>pro[i].arrtime>>pro[i].sertime;
+
+    cout<<endl<<"------------------------------------"<<endl;
+}
+
+void Sortarrivetime()
+{
+    sort(pro, pro+n, cmp);
+}
+
+void Sortserivetime(int a)
+{
+    int i, j;
+    for(i=a; i<n; i++)//记录在正在执行的进程服务时间内到达的进程
+    {
+        if(pro[i].arrtime<=pro[a-1].fintime)
+            pro[i].sertime_SJF=pro[i].sertime;
+    }
+    for(i=a; i<n; i++)//对已到达的进程排序
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(pro[i].sertime_SJF>pro[j].sertime_SJF && pro[i].sertime_SJF!=0 && pro[j].sertime_SJF!=0)
+            {
+                temp=pro[i];
+                pro[i]=pro[j];
+                pro[j]=temp;
+            }
+        }
+    }
+}
