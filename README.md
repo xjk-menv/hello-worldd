@@ -198,3 +198,66 @@ void dispaly()
         cout<<Averagewwt<<endl;
     }
 }
+
+void outtimestate()
+{
+    int i, j;
+    cout<<endl;
+    for(i=0; i<=pro[n-1].fintime; i++)//查看时刻
+    {
+        cout<<"时刻"<<i<<"：";
+        for(j=0; j<n; j++)
+        {
+            if(pro[j].arrtime==i && pro[j].starttime==i)
+                cout<<"ID "<<pro[j].ID<<" 进程到达并执行，";
+            else if(pro[j].arrtime==i)
+                cout<<"ID "<<pro[j].ID<<" 进程到达，";
+            else if(pro[j].starttime==i)
+                cout<<"ID "<<pro[j].ID<<" 进程开始执行，";
+            else if(pro[j].fintime==i)
+                cout<<"ID "<<pro[j].ID<<" 进程结束，";
+        }
+        cout<<endl;
+    }
+}
+
+void Calculationaverage()
+{
+    Averagewt=(double)sumwt/(double)n;
+    Averagewwt=(double)sumwwt/(double)n;
+    dispaly();
+    outtimestate();
+}
+
+void FCFS()
+{
+    int i;
+    Sortarrivetime();//调用对到达时间排序函数
+    for(i=0; i<n; i++)
+    {
+        Calculationtime(i);//调用计算各进程时间函数
+        pro[i].order=i+1;
+    }
+    Calculationaverage();//调用计算平均数的函数
+}
+
+void Choose()
+{
+    cout<<"请选择算法“1-FCFS，2-SJF，3-HRRN，4-PSA”"<<endl;
+    cin>>choose;
+    cout<<endl;
+    if(choose==1)
+        FCFS();//选择先来先服务
+    else if(choose==2)
+        SJF();//选择短进程优先算法
+    else if(choose==3)
+        HRRN();//选择响应比算法
+    else if(choose==4)
+        PSA();//选择静态优先权算法
+    else
+    {
+        cout<<"请输入正确的选择“1-FCFS，2-SJF，3-HRRN，4-PSA”"<<endl;
+        cout<<"------------------------------------"<<endl;
+        Choose(); //递归
+    }
+}
