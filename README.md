@@ -18,6 +18,7 @@ typedef struct
     double weightwholetime;//带权周转时间
 } PCB;
 
+
 int n=0;
 PCB pro[100];//进程结构体
 PCB temp;//临时进程结构
@@ -27,3 +28,4 @@ double Averagewt=0;//平均周转时间
 double Averagewwt=0;//平均带权周转时间
 int sumwt=0;//周转时间总和
 double sumwwt=0;//带权周转时间总和
+
