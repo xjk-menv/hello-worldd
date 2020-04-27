@@ -107,3 +107,94 @@ void Sortserivetime(int a)
         }
     }
 }
+
+
+void Sortpriority(int a, int flag)
+{
+    int i, j;
+    if(flag)//PSA
+    {
+        for(i=a; i<n; i++)
+        {
+            if(pro[i].arrtime<=pro[a-1].fintime)
+                pro[i].prioritytime=pro[i].priority;
+        }
+    }
+    else//HRRN
+    {
+        for(i=a; i<n; i++)//记录在正在执行的进程服务时间内到达的进程
+        {
+            if(pro[i].arrtime<=pro[a-1].fintime)
+                pro[i].prioritytime=((double)pro[a-1].fintime-(double)pro[i].arrtime+(double)pro[i].sertime)/(double)pro[i].sertime;
+        }
+    }
+    for(i=a; i<n; i++)
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(pro[i].prioritytime<pro[j].prioritytime&&pro[j].prioritytime!=0&&pro[i].prioritytime!=0)
+            {
+                temp=pro[i];
+                pro[i]=pro[j];
+                pro[j]=temp;
+            }
+        }
+    }
+}
+
+void Calculationtime(int i)
+{
+    if(pro[i].arrtime >= pro[i-1].fintime || i==0)
+    {
+        pro[i].fintime=pro[i].arrtime+pro[i].sertime;
+        pro[i].starttime=pro[i].arrtime;
+    }
+    else
+    {
+        pro[i].fintime=pro[i-1].fintime+pro[i].sertime;
+        pro[i].starttime=pro[i-1].fintime;
+    }
+    pro[i].wholetime=pro[i].fintime-pro[i].arrtime;
+    pro[i].weightwholetime=(double)pro[i].wholetime/(double)pro[i].sertime;
+    sumwt+=pro[i].wholetime;
+    sumwwt+=pro[i].weightwholetime;
+}
+
+
+void dispaly()
+{
+    cout<<"处理作业次序"<<"\t"<<"ID"<<"\t"<<"到达时间"<<"\t"<<"服务时间"<<"\t"<<"完成时间"<<"\t"<<"周转时间"<<"\t"<<"带权周转时间"<<"\t"<<"开始执行时间"<<endl;
+    for(int i=0; i<n; i++)
+    {
+        cout<<pro[i].order<<"\t"<<"\t"<<pro[i].ID<<"\t"<<pro[i].arrtime<<"\t"<<"\t"<<pro[i].sertime<<"\t"<<"\t"<<pro[i].fintime<<"\t";
+        cout<<"\t"<<pro[i].wholetime<<"\t"<<"\t"<<setprecision(2)<<pro[i].weightwholetime<<"\t"<<"\t"<<pro[i].starttime<<endl;
+    }
+    if(choose==1)
+    {
+        cout<<endl<<"FCFS周转时间总和："<<sumwt<<endl<<"FCFS带权周转时间总和：";
+        cout<<sumwwt<<endl<<"FCFS平均周转时间：";
+        cout<<Averagewt<<endl<<"FCFS带权平均周转时间：";
+        cout<<Averagewwt<<endl;
+    }
+    else if(choose==2)
+    {
+        cout<<endl<<"SJF周转时间总和："<<sumwt<<endl<<"SJF带权周转时间总和：";
+        cout<<sumwwt<<endl<<"SJF平均周转时间：";
+        cout<<Averagewt<<endl<<"SJF带权平均周转时间：";
+        cout<<Averagewwt<<endl;
+    }
+    else if(choose==3)
+    {
+        cout<<endl<<"HRRN周转时间总和："<<sumwt<<endl<<"HRRN带权周转时间总和：";
+        cout<<sumwwt<<endl<<"HRRN平均周转时间：";
+        cout<<Averagewt<<endl<<"HRRN带权平均周转时间：";
+        cout<<Averagewwt<<endl;
+    }
+    else if(choose=4)
+    {
+        cout<<endl<<"PSA周转时间总和："<<sumwt<<endl<<"PSA带权周转时间总和：";
+        cout<<sumwwt<<endl<<"PSA平均周转时间：";
+        cout<<Averagewt<<endl<<"PSA带权平均周转时间：";
+        cout<<Averagewwt<<endl;
+    }
+}
