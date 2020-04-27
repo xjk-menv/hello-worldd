@@ -240,7 +240,6 @@ void FCFS()
     }
     Calculationaverage();//调用计算平均数的函数
 }
-
 void Choose()
 {
     cout<<"请选择算法“1-FCFS，2-SJF，3-HRRN，4-PSA”"<<endl;
@@ -261,3 +260,53 @@ void Choose()
         Choose(); //递归
     }
 }
+
+void SJF()
+{
+    int i;
+    Sortarrivetime();//调用对到达时间排序函数
+    for(i=0; i<n; i++)
+    {
+        if(i!=0)
+            Sortserivetime(i);//调用对服务时间排序函数
+        Calculationtime(i);//调用计算各进程时间函数
+        pro[i].order=i+1;
+    }
+    Calculationaverage();//调用计算平均数的函数
+}
+
+void HRRN()
+{
+    int i, flag;
+    Sortarrivetime();//调用对到达时间排序函数
+    for(i=0; i<n; i++)
+    {
+        flag=0;
+        if(i!=0)
+            Sortpriority(i, flag);//调用对优先权排序函数
+        Calculationtime(i);//调用计算各进程时间函数
+        pro[i].order=i+1;
+    }
+    Calculationaverage();//调用计算平均数的函数
+}
+
+void PSA()
+{
+    int i, flag;
+    cout<<"请输入各进程的优先权：";
+    for(i=0; i<n; i++)
+        cin>>pro[i].priority;
+    Sortarrivetime();
+    for(i=0; i<n; i++)
+    {
+        flag=1;
+        if(i!=0)
+            Sortpriority(i, flag);//调用对优先权排序函数
+        Calculationtime(i);//调用计算各进程时间函数
+        pro[i].order=i+1;
+    }
+    Calculationaverage();//调用计算平均数的函数
+}
+
+
+
